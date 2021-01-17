@@ -30,7 +30,6 @@ import org.apache.ibatis.reflection.ExceptionUtil;
  *
  * @author Clinton Begin
  * @author Eduardo Macarron
- *
  */
 public final class ConnectionLogger extends BaseJdbcLogger implements InvocationHandler {
 
@@ -77,12 +76,9 @@ public final class ConnectionLogger extends BaseJdbcLogger implements Invocation
     /**
      * Creates a logging version of a connection.
      *
-     * @param conn
-     *          the original connection
-     * @param statementLog
-     *          the statement log
-     * @param queryStack
-     *          the query stack
+     * @param conn         the original connection
+     * @param statementLog the statement log
+     * @param queryStack   the query stack
      * @return the connection with logging
      */
     public static Connection newInstance(Connection conn, Log statementLog, int queryStack) {
