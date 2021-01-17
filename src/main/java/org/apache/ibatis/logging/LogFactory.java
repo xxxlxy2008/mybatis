@@ -78,10 +78,6 @@ public final class LogFactory {
         setImplementation(org.apache.ibatis.logging.log4j2.Log4j2Impl.class);
     }
 
-    public static synchronized void useJdkLogging() {
-        setImplementation(org.apache.ibatis.logging.jdk14.Jdk14LoggingImpl.class);
-    }
-
     public static synchronized void useStdOutLogging() {
         setImplementation(org.apache.ibatis.logging.stdout.StdOutImpl.class);
     }
@@ -98,6 +94,10 @@ public final class LogFactory {
                 // ignore
             }
         }
+    }
+
+    public static synchronized void useJdkLogging() {
+        setImplementation(org.apache.ibatis.logging.jdk14.Jdk14LoggingImpl.class);
     }
 
     private static void setImplementation(Class<? extends Log> implClass) {
