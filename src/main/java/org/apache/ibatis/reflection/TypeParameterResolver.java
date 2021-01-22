@@ -153,8 +153,11 @@ public class TypeParameterResolver {
         return result;
     }
 
-    // 在该示例中第一个参数是类型变量K对应的TypeVariable对象，第二个参数依然是Level1Test<Long>对应的ParameterizedType对象，第三个参数是声明hashmap字段的类(即Level0Test)对应的Class对象。
-    private static Type resolveTypeVar(TypeVariable<?> typeVar, Type srcType, Class<?> declaringClass) {
+    // 在该示例中第一个参数是类型变量K对应的TypeVariable对象，
+    // 第二个参数依然是Level1Test<Long>对应的ParameterizedType对象，
+    // 第三个参数是声明hashmap字段的类(即Level0Test)对应的Class对象。
+    private static Type resolveTypeVar(TypeVariable<?> typeVar, Type srcType,
+                                       Class<?> declaringClass) {
         Type result;
         Class<?> clazz;
         if (srcType instanceof Class) {
@@ -168,7 +171,7 @@ public class TypeParameterResolver {
         }
 
         // 在示例中，Level1Test继承了Level0Test且hashMap字段定义在Level0Test中，
-        // 所以这里的srcType与declaringClass并不相等。如果hashMap字段定义在SubClassA中，
+        // 所以这里的srcType与declaringClass并不相等。如果hashMap字段定义在Level1Test中，
         // 则可以直接结束对K的解析
         if (clazz == declaringClass) {
             Type[] bounds = typeVar.getBounds(); // 获取上界
@@ -177,7 +180,7 @@ public class TypeParameterResolver {
             }
             return Object.class;
         }
-        // 获取声明的父类类型，即Level<T,T>对应的ParameterizedType对象
+        // 获取声明的父类类型，即Level0Test<T,T>对应的ParameterizedType对象
         Type superclass = clazz.getGenericSuperclass();
         // 通过扫描父类进行后续解析，这是递归的入口
         result = scanSuperTypes(typeVar, srcType, declaringClass, clazz, superclass);
