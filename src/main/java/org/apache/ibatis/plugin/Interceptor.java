@@ -22,14 +22,16 @@ import java.util.Properties;
  */
 public interface Interceptor {
 
+  // 插件实现类中需要实现的拦截逻辑
   Object intercept(Invocation invocation) throws Throwable;
 
+  // 在该方法中会决定是否触发intercept()方法
   default Object plugin(Object target) {
     return Plugin.wrap(target, this);
   }
 
   default void setProperties(Properties properties) {
-    // NOP
+    // 在整个MyBatis初始化过程中用来初始化该插件的方法
   }
 
 }

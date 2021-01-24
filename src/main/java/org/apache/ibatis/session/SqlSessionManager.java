@@ -76,7 +76,8 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
     }
 
     public void startManagedSession() {
-        this.localSqlSession.set(openSession());
+        // 调用底层被装饰的SqlSessionFactory创建SqlSession对象，并绑定到localSqlSession变量中
+        localSqlSession.set(openSession());
     }
 
     public void startManagedSession(boolean autoCommit) {
@@ -281,10 +282,12 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
 
     @Override
     public void commit() {
+        // 获取当前线程绑定的SqlSession对象
         final SqlSession sqlSession = localSqlSession.get();
-        if (sqlSession == null) {
+        if (sqlSession == null) { // 如果当前未绑定SqlSession对象，则不能用SqlSessionManager来控制事务
             throw new SqlSessionException("Error:  Cannot commit.  No managed session is started.");
         }
+        // 如果当前线程绑定了SqlSession，则可以通过SqlSessionManager来提交事务
         sqlSession.commit();
     }
 
@@ -344,16 +347,20 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            // 尝试中localSqlSession变量中获取当前线程绑定的SqlSession对象
             final SqlSession sqlSession = SqlSessionManager.this.localSqlSession.get();
             if (sqlSession != null) {
                 try {
+                    // 当前线程已经绑定了SqlSession，直接使用即可
                     return method.invoke(sqlSession, args);
                 } catch (Throwable t) {
                     throw ExceptionUtil.unwrapThrowable(t);
                 }
             } else {
+                // 通过openSession()方法创建新SqlSession对象
                 try (SqlSession autoSqlSession = openSession()) {
                     try {
+                        // 通过新建的SqlSession对象完成数据库操作
                         final Object result = method.invoke(autoSqlSession, args);
                         autoSqlSession.commit();
                         return result;
