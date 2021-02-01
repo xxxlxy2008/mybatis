@@ -25,9 +25,11 @@ import org.apache.ibatis.logging.Log;
  */
 public class Jdk14LoggingImpl implements Log {
 
+    // 指向一个java.util.logging.Logger对象
     private final Logger log;
 
     public Jdk14LoggingImpl(String clazz) {
+        // 初始化log字段
         log = Logger.getLogger(clazz);
     }
 
@@ -43,6 +45,7 @@ public class Jdk14LoggingImpl implements Log {
 
     @Override
     public void error(String s, Throwable e) {
+        // 全部调用依赖java.util.logging.Logger对象进行实现
         log.log(Level.SEVERE, s, e);
     }
 

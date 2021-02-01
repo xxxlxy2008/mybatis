@@ -108,11 +108,15 @@ public final class TypeHandlerRegistry {
         register(JdbcType.DOUBLE, new DoubleTypeHandler());
 
         register(Reader.class, new ClobReaderTypeHandler());
+        // StringTypeHandler可以实现String类型与char、varchar、longvarchar类型之间的转换
         register(String.class, new StringTypeHandler());
-        register(String.class, JdbcType.CHAR, new StringTypeHandler());
-        register(String.class, JdbcType.CLOB, new ClobTypeHandler());
         register(String.class, JdbcType.VARCHAR, new StringTypeHandler());
         register(String.class, JdbcType.LONGVARCHAR, new StringTypeHandler());
+        register(String.class, JdbcType.CHAR, new StringTypeHandler());
+        // ClobTypeHandler可以完成String类型与clob类型之间的转换
+        register(String.class, JdbcType.CLOB, new ClobTypeHandler());
+
+        // NStringTypeHandler可以完成String类型与NVARCHAR、NCHAR类型之间的转换
         register(String.class, JdbcType.NVARCHAR, new NStringTypeHandler());
         register(String.class, JdbcType.NCHAR, new NStringTypeHandler());
         register(String.class, JdbcType.NCLOB, new NClobTypeHandler());

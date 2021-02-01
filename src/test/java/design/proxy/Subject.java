@@ -5,4 +5,6 @@ package design.proxy;
  */
 public interface Subject {
 
+    void operation();
+
 }

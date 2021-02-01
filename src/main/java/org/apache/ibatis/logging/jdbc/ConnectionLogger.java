@@ -50,7 +50,8 @@ public final class ConnectionLogger extends BaseJdbcLogger implements Invocation
             }
             // 调用prepareStatement()方法、prepareCall()方法的时候，
             // 会在创建PreparedStatement对象之后，会用PreparedStatementLogger为其创建代理对象
-            if ("prepareStatement".equals(method.getName()) || "prepareCall".equals(method.getName())) {
+            if ("prepareStatement".equals(method.getName())
+                    || "prepareCall".equals(method.getName())) {
                 if (isDebugEnabled()) {
                     // 通过statementLog这个Log输出日志
                     debug(" Preparing: " + removeExtraWhitespace((String) params[0]), true);

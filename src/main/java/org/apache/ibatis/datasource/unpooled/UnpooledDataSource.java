@@ -52,7 +52,7 @@ public class UnpooledDataSource implements DataSource {
     private Integer defaultNetworkTimeout;
 
     static {
-        // 从DriverManage中读取JDBC驱动
+        // 从DriverManager中读取JDBC驱动
         Enumeration<Driver> drivers = DriverManager.getDrivers();
         while (drivers.hasMoreElements()) {
             Driver driver = drivers.nextElement();

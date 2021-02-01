@@ -6,4 +6,9 @@ package design.proxy;
 public class Proxy implements Subject {
 
   private Subject realSubject;
+
+  @Override
+  public void operation() {
+
+  }
 }
